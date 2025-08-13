@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         turretMM = new MotionMagicVoltage(Degrees.zero());
 
-        hoodMotor = new TalonFXS(IDConstants.hoodMotor, "rio");
+        hoodMotor = new TalonFXS(IDConstants.hoodMotorID, "rio");
         hoodMotor.getConfigurator()
                 .apply(new TalonFXSConfiguration().MotorOutput.withInverted(InvertedValue.Clockwise_Positive));
         hoodMotor.getConfigurator().apply(new TalonFXSConfiguration()
