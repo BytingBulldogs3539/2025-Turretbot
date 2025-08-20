@@ -15,4 +15,7 @@ public class IDConstants extends BBConstants {
 	public static int funnelDeployMotorID = 0;
 	public static int outerIntakeMotorID = 0;
 	public static int innerIntakeMotorID = 0;
+	public static int feedWheelMotorID = 0;
+	public static int feedBeltMotorID = 0;
+	public static int pigeonID = 0;
 }

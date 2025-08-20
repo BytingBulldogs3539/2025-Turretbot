@@ -6,10 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
 
 public class RobotContainer {
   public static ShooterConstants shooterConstants = new ShooterConstants();
+  public static IntakeConstants intakeConstants = new IntakeConstants();
   public RobotContainer() {
     configureBindings();
   }

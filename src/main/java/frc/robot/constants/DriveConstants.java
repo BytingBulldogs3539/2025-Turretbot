@@ -1,0 +1,20 @@
+package frc.robot.constants;
+
+import org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;
+
+public class DriveConstants extends BBConstants {
+	public DriveConstants() {
+		super("/home/lvuser/DriveConstants.ini", true);
+		save();
+	}
+
+	public static double TranslationkP = 0;
+	public static double TranslationkI = 0;
+	public static double TranslationkD = 0;
+	public static double RotationkP = 0;
+	public static double RotationkI = 0;
+	public static double RotationkD = 0;
+	public static double TranslationkA = 0;
+	public static double TranslationkV = 0;
+	public static double TranslationkS = 0;
+}

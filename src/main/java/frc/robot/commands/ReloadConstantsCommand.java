@@ -18,6 +18,7 @@ public class ReloadConstantsCommand extends Command {
   @Override
   public void initialize() {
     RobotContainer.shooterConstants.reload();
+    RobotContainer.intakeConstants.reload();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
