@@ -20,4 +20,10 @@ public class IntakeConstants extends BBConstants {
 	public static double funnelDeploykG = 0.0;
 	public static double funnelDeployAcceleration = 0.0;
 	public static double funnelDeployCruiseVelocity = 0.0;
+	public static double groundFunnelDeployAngle = 0;
+	public static double outerIntakeVoltage = 0;
+	public static double innerIntakeVoltage = 0;
+	public static double homeFunnelDeployAngle = 0;
+	public static double handOffFunnelDeployAngle = 0;
+	public static double humanFunnelDeployAngle = 0;
 }

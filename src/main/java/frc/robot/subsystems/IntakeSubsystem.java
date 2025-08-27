@@ -145,7 +145,7 @@ public class IntakeSubsystem extends SubsystemBase {
     outerIntakeMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
   }
 
-  public static void setFunnelIntakeMotor(double voltage) {
+  public static void setInnerIntakeMotor(double voltage) {
     innerIntakeMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
   }
 
