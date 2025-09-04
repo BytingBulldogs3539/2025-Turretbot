@@ -26,4 +26,12 @@ public class IntakeConstants extends BBConstants {
 	public static double homeFunnelDeployAngle = 0;
 	public static double handOffFunnelDeployAngle = 0;
 	public static double humanFunnelDeployAngle = 0;
+	public static double outerIntakeDiameter = 0.0;
+	public static double innerIntakeDiameter = 0.0;
+	public static double feedWheelDiameter = 0.0;
+	public static double feedBeltDiameter = 0.0;
+	public static double outerIntakeSS = 100;
+	public static double innerIntakeSS = 100;
+	public static double feedWheelSS = 100;
+	public static double feedBeltSS = 100;
 }

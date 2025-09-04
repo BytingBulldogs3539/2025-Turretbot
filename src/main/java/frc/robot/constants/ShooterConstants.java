@@ -25,4 +25,6 @@ public class ShooterConstants extends BBConstants {
 	public static double turretkI = 0.0;
 	public static double turretkP = 0.0;
 	public static double turretkV = 0.0;
+	public static double flywheelDiameter = 0.0;
+	public static double flywheelSS = 100;
 }

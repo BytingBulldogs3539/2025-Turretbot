@@ -29,17 +29,13 @@ public class ShooterSubsystem extends SubsystemBase {
     private static TalonFX flywheelMotor;
     private static TalonFXS turretMotor, hoodMotor;
     private static MotionMagicVoltage turretMM, hoodMM;
-    private static MotionMagicVelocityVoltage flywheelMM; 
     private static Angle requestedTurretAngle, requestedHoodAngle;
-    private static AngularVelocity requestedFlywheelVelocity;
 
     public ShooterSubsystem() {
 
         flywheelMotor = new TalonFX(IDConstants.flywheelMotorID, "rio");
         flywheelMotor.getConfigurator()
                 .apply(new TalonFXConfiguration().MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive));
-
-        flywheelMM =  new MotionMagicVelocityVoltage(RotationsPerSecond.of(0));
 
         turretMotor = new TalonFXS(IDConstants.turretMotorID, "rio");
         turretMotor.getConfigurator()
@@ -69,9 +65,9 @@ public class ShooterSubsystem extends SubsystemBase {
        requestedHoodAngle = angle;
     }
 
-    public static void setFlywheelAngle(AngularVelocity angularVelocity)
+    public static void setFlywheelVelocity(AngularVelocity angularVelocity)
     {
-       requestedFlywheelVelocity = angularVelocity;
+       flywheelMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
     }
 
     public static void reloadConstants() {
@@ -106,7 +102,6 @@ public class ShooterSubsystem extends SubsystemBase {
         turretMotor.setControl(turretMM);
         hoodMM.withPosition(requestedHoodAngle);
         hoodMotor.setControl(hoodMM);
-        flywheelMM.withVelocity(requestedFlywheelVelocity);
-        flywheelMotor.setControl(flywheelMM);
+        
     }
 }
