@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DriveConstants;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 public class DriveCommand extends Command {
 	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);
@@ -22,9 +21,9 @@ public class DriveCommand extends Command {
 	/** Creates a new DriveCommand. */
 	private PidController rotationController;
 
-	double maxVelocity = RobotContainer.DriveSubsystem.maxVelocity;
+	double maxVelocity = RobotContainer.driveSubsystem.maxVelocity;
 
-	double maxRotationalVelocity = RobotContainer.DriveSubsystem.maxRotationalVelocity;
+	double maxRotationalVelocity = RobotContainer.driveSubsystem.maxRotationalVelocity;
 
 	double rotationDeadband = maxRotationalVelocity * 0.02;
 	private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
@@ -36,9 +35,9 @@ public class DriveCommand extends Command {
 			.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
 	public DriveCommand() {
-		addRequirements(RobotContainer.DriveSubsystem);
+		addRequirements(RobotContainer.driveSubsystem);
 
-		rotationController = new PidController(new PidConstants(DriveConstants.AlignkP, 0, 0));
+		rotationController = new PidController(new PidConstants(RobotContainer.driveConstants.AlignkP, 0, 0));
 
 		rotationController.setInputRange(-Math.PI, Math.PI);
 		rotationController.setOutputRange(-1, 1);
@@ -64,9 +63,6 @@ public class DriveCommand extends Command {
 			speedMultiplier = DriveConstants.turboSpeedMultiplier;
 			rotationSpeedMultiplier = DriveConstants.turboRotationSpeedMultiplier;
 		}
-		if (ElevatorSubsystem.getElevatorPosition() > 30) {
-			speedMultiplier *= 1 -((Math.max(0, ElevatorSubsystem.getElevatorPosition() - 30) * 0.7) / 50);
-		}
 
 		if (RobotContainer.rightDriverBumper.getAsBoolean()) { // Robot Centric
 			request = driveRobotCentric
@@ -84,7 +80,7 @@ public class DriveCommand extends Command {
 					.withRotationalDeadband(rotationDeadband);
 		}
 
-		RobotContainer.DriveSubsystem.applyRequest(request);
+		RobotContainer.driveSubsystem.applyRequest(request);
 	}
 
 	// Called once the command ends or is interrupted.

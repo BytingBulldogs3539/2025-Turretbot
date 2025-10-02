@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,6 +24,7 @@ import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -39,7 +41,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class IntakeSubsystem extends SubsystemBase {
 
   private static TalonFX funnelDeployMotor, feedWheelMotor, feedBeltMotor; // , algaeDeployMotor,algaeIntakeMotor;
-  private static TalonFXS innerIntakeMotor, outerIntakeMotor; 
+  private static TalonFXS innerIntakeMotor, outerIntakeMotor;
 
   private static CANcoder funnelDeployCanCoder;
   private static double requestedFunnelDeployPos = 0;
@@ -68,9 +70,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     funnelDeployMotor = new TalonFX(IDConstants.funnelDeployMotorID, "rio");
     funnelDeployMotor.getConfigurator().apply(
-          new TalonFXConfiguration().MotorOutput
-              .withInverted(InvertedValue.CounterClockwise_Positive));
-  
+        new TalonFXConfiguration().MotorOutput
+            .withInverted(InvertedValue.CounterClockwise_Positive));
 
     funnelDeployMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -98,33 +99,33 @@ public class IntakeSubsystem extends SubsystemBase {
         .apply(new FeedbackConfigs().withFeedbackRemoteSensorID(IDConstants.funnelDeployCanCoderID)
             .withRotorToSensorRatio(IntakeConstants.funnelDeployMotorToMechanism).withSensorToMechanismRatio(1)
             .withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder));
-    
+
     feedWheelMotor = new TalonFX(IDConstants.feedWheelMotorID, "rio");
     feedWheelMotor.getConfigurator()
-                  .apply(new TalonFXConfiguration().MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive));
+        .apply(new TalonFXConfiguration().MotorOutput.withInverted(InvertedValue.CounterClockwise_Positive));
 
     feedBeltMotor = new TalonFX(IDConstants.feedBeltMotorID, "rio");
-    feedBeltMotor.getConfigurator().apply(new TalonFXConfiguration().MotorOutput.withInverted(InvertedValue.Clockwise_Positive));
-    
+    feedBeltMotor.getConfigurator()
+        .apply(new TalonFXConfiguration().MotorOutput.withInverted(InvertedValue.Clockwise_Positive));
+
     reloadConstants();
 
     createAlert(funnelDeployCanCoder, "funnelDeployCanConder");
     createAlert(funnelDeployMotor, "funnelDeployMotor");
     createAlert(outerIntakeMotor, "fuelIntakeMotor");
     createAlert(innerIntakeMotor, "funnelIntakeMotor");
-   
+
   }
 
-  public static void reloadConstants()
-  {
+  public static void reloadConstants() {
     funnelDeployMotor.getConfigurator()
         .apply(new SlotConfigs().withKP(IntakeConstants.funnelDeploykP).withKI(IntakeConstants.funnelDeploykI)
             .withKD(IntakeConstants.funnelDeploykD).withKV(IntakeConstants.funnelDeploykV)
             .withKG(IntakeConstants.funnelDeploykG).withGravityType(GravityTypeValue.Arm_Cosine));
-      funnelDeployMotor.getConfigurator()
-            .apply(new MotionMagicConfigs()
-                .withMotionMagicAcceleration(IntakeConstants.funnelDeployAcceleration)
-                .withMotionMagicCruiseVelocity(IntakeConstants.funnelDeployCruiseVelocity));
+    funnelDeployMotor.getConfigurator()
+        .apply(new MotionMagicConfigs()
+            .withMotionMagicAcceleration(IntakeConstants.funnelDeployAcceleration)
+            .withMotionMagicCruiseVelocity(IntakeConstants.funnelDeployCruiseVelocity));
   }
 
   public static double getFunnelDeployAngle() {
@@ -140,13 +141,36 @@ public class IntakeSubsystem extends SubsystemBase {
     requestedFunnelDeployPos = getFunnelDeployAngle();
   }
 
-
-  public static void setfuelIntakeMotor(double voltage) {
+  public static void setOuterIntakeMotor(double voltage) {
     outerIntakeMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setOuterIntakeVelocity(AngularVelocity angularVelocity) {
+    outerIntakeMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
   }
 
   public static void setInnerIntakeMotor(double voltage) {
     innerIntakeMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setInnerIntakeVelocity(AngularVelocity angularVelocity) {
+    innerIntakeMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
+
+  public static void setFeedWheelMotor(double voltage) {
+    feedWheelMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setFeedBeltMotor(double voltage) {
+    feedBeltMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setFeedWheelVelocity(AngularVelocity angularVelocity) {
+    feedWheelMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
+
+  public static void setFeedBeltVelocity(AngularVelocity angularVelocity) {
+    feedBeltMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
   }
 
   public static double degreesToFunnelDeployRotations(double degrees) {
@@ -179,7 +203,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
       }
     }
-    
+
     // This method will be called once per scheduler run
     funnelDeployMotor.setControl(new MotionMagicVoltage(degreesToFunnelDeployRotations(requestedFunnelDeployPos)));
   }
