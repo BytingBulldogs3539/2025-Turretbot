@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.constants.DriveConstants;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 public class DriveCommand extends Command {
 	Translation2d blueSpeakerCoordinate = new Translation2d(0, 5.55);

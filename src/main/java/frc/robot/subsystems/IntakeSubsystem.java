@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,6 +24,7 @@ import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -153,6 +155,29 @@ public class IntakeSubsystem extends SubsystemBase {
     return Units.degreesToRotations(degrees);
   }
 
+   public static void setInnerIntakeVelocity(AngularVelocity angularVelocity) {
+    innerIntakeMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
+
+  public static void setFeedWheelMotor(double voltage) {
+    feedWheelMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setFeedBeltMotor(double voltage) {
+    feedBeltMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+  }
+
+  public static void setOuterIntakeVelocity(AngularVelocity angularVelocity) {
+    outerIntakeMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
+
+  public static void setFeedWheelVelocity(AngularVelocity angularVelocity) {
+    feedWheelMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
+
+  public static void setFeedBeltVelocity(AngularVelocity angularVelocity) {
+    feedBeltMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
+  }
   public static void setFunnelBreakMode(boolean enabled) {
     if (enabled) {
       funnelDeployMotor.setNeutralMode(NeutralModeValue.Brake);
