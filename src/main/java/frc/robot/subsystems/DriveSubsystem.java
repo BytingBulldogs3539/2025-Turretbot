@@ -46,7 +46,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.constants.AlignConstants;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.EnumConstants.AlignPoint;
 import frc.robot.constants.IDConstants;
 
 public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements Subsystem {
@@ -218,6 +220,13 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 		request = swerveRequest;
 
 		var driveSignalOpt = follower.update(getPose2d(), Timer.getFPGATimestamp(), Robot.kDefaultPeriod);
+
+		if (follower.getLastState() != null) {
+			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested",
+					follower.getLastState().getPathState().getPose2d());
+		} else {
+			VisionSubsystem.publishPose2d("/DriveTrain/PoseRequested", new Pose2d());
+		}
 
 		if (driveSignalOpt.isPresent()) {
 			ChassisSpeeds speeds = driveSignalOpt.get();
