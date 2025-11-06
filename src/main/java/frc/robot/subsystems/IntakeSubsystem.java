@@ -171,11 +171,11 @@ public class IntakeSubsystem extends SubsystemBase {
     outerIntakeMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
   }
 
-  public static void setFeedWheelVelocity(AngularVelocity angularVelocity) {
+  public static void setFeedWheelVelocity(double angularVelocity) {
     feedWheelMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
   }
 
-  public static void setFeedBeltVelocity(AngularVelocity angularVelocity) {
+  public static void setFeedBeltVelocity(double angularVelocity) {
     feedBeltMotor.setControl(new MotionMagicVelocityVoltage(angularVelocity));
   }
   public static void setFunnelBreakMode(boolean enabled) {
@@ -206,6 +206,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     
     // This method will be called once per scheduler run
-    funnelDeployMotor.setControl(new MotionMagicVoltage(degreesToFunnelDeployRotations(requestedFunnelDeployPos)));
+   // funnelDeployMotor.setControl(new MotionMagicVoltage(degreesToFunnelDeployRotations(requestedFunnelDeployPos)));
   }
 }

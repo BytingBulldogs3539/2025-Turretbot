@@ -4,36 +4,25 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
-import edu.wpi.first.units.AngularVelocityUnit;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Utils;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class GiveItTheBeansCommand extends Command {
-  /** Creates a new ShootCommand. */
-  public GiveItTheBeansCommand() {
+public class PrepareTheBeansCommand extends Command {
+  /** Creates a new ShootTheBeans. */
+  public PrepareTheBeansCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    IntakeSubsystem.setFeedBeltVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedBeltDiameter, IntakeConstants.feedBeltSS).baseUnitMagnitude());
-    IntakeSubsystem.setFeedWheelVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedWheelDiameter, IntakeConstants.feedWheelSS).baseUnitMagnitude());
-    //IntakeSubsystem.setInnerIntakeVelocity(Utils.ssToAngularVelocity(IntakeConstants.innerIntakeDiameter, IntakeConstants.innerIntakeSS));
-    //IntakeSubsystem.setOuterIntakeVelocity(Utils.ssToAngularVelocity(IntakeConstants.outerIntakeDiameter, IntakeConstants.outerIntakeSS));
-    ShooterSubsystem.setShootVelocity(Utils.ssToAngularVelocity(ShooterConstants.shootDiameter, ShooterConstants.shootSS).baseUnitMagnitude());
+      ShooterSubsystem.setShootVelocity(Utils.ssToAngularVelocity(ShooterConstants.shootDiameter, ShooterConstants.shootSS).baseUnitMagnitude());
 
-    
-
-   }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -42,9 +31,8 @@ public class GiveItTheBeansCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    IntakeSubsystem.setFeedBeltVelocity(0);
-    IntakeSubsystem.setFeedWheelVelocity(0);
     ShooterSubsystem.setShootVelocity(0);
+
   }
 
   // Returns true when the command should end.
