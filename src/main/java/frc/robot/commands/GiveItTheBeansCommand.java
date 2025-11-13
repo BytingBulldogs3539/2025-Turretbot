@@ -27,9 +27,6 @@ public class GiveItTheBeansCommand extends Command {
   public void initialize() {
     IntakeSubsystem.setFeedBeltVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedBeltDiameter, IntakeConstants.feedBeltSS).baseUnitMagnitude());
     IntakeSubsystem.setFeedWheelVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedWheelDiameter, IntakeConstants.feedWheelSS).baseUnitMagnitude());
-    //IntakeSubsystem.setInnerIntakeVelocity(Utils.ssToAngularVelocity(IntakeConstants.innerIntakeDiameter, IntakeConstants.innerIntakeSS));
-    //IntakeSubsystem.setOuterIntakeVelocity(Utils.ssToAngularVelocity(IntakeConstants.outerIntakeDiameter, IntakeConstants.outerIntakeSS));
-    ShooterSubsystem.setShootVelocity(Utils.ssToAngularVelocity(ShooterConstants.shootDiameter, ShooterConstants.shootSS).baseUnitMagnitude());
 
     
 
@@ -44,7 +41,6 @@ public class GiveItTheBeansCommand extends Command {
   public void end(boolean interrupted) {
     IntakeSubsystem.setFeedBeltVelocity(0);
     IntakeSubsystem.setFeedWheelVelocity(0);
-    ShooterSubsystem.setShootVelocity(0);
   }
 
   // Returns true when the command should end.

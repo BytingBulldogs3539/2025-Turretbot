@@ -10,24 +10,24 @@ public class IntakeConstants extends BBConstants {
     }
 
     /* =================== DO NOT MODIFY BELOW =================== */
-    public static double funnelDeployOffset = 0.0;
-    public static double funnelDeployDiscontPoint = 0.0;
-    public static double funnelDeploySoftMax = 0.0;
-    public static double funnelDeploySoftMin = 0.0;
-    public static double funnelDeployMotorToMechanism = 0.0;
-    public static double funnelDeploykP = 0.0;
+    public static double funnelDeployOffset = -0.070068359375;
+    public static double funnelDeployDiscontPoint = 0.75;
+    public static double funnelDeploySoftMax = 105.0;
+    public static double funnelDeploySoftMin = -42.0;
+    public static double funnelDeployMotorToMechanism = 64.44;
+    public static double funnelDeploykP = 64.0;
     public static double funnelDeploykI = 0.0;
     public static double funnelDeploykD = 0.0;
-    public static double funnelDeploykV = 0.0;
-    public static double funnelDeploykG = 0.0;
-    public static double funnelDeployAcceleration = 0.0;
-    public static double funnelDeployCruiseVelocity = 0.0;
-    public static double groundFunnelDeployAngle = 0.0;
+    public static double funnelDeploykV = 6.16;
+    public static double funnelDeploykG = 0.5;
+    public static double funnelDeployAcceleration = 2.0;
+    public static double funnelDeployCruiseVelocity = 0.8;
+    public static double groundFunnelDeployAngle = -42.0;
     public static double outerIntakeVoltage = 0.0;
     public static double innerIntakeVoltage = 0.0;
-    public static double homeFunnelDeployAngle = 0.0;
-    public static double handOffFunnelDeployAngle = 0.0;
-    public static double humanFunnelDeployAngle = 0.0;
+    public static double homeFunnelDeployAngle = 100.0;
+    public static double handOffFunnelDeployAngle = 80.0;
+    public static double humanFunnelDeployAngle = 80.0;
     public static double outerIntakeDiameter = 0.0;
     public static double innerIntakeDiameter = 0.0;
     public static double feedWheelDiameter = 4.75;
