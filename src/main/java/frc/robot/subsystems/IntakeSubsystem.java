@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.ShooterConstants;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static TalonFXS innerIntakeMotor, outerIntakeMotor; 
 
   private static CANcoder funnelDeployCanCoder;
-  private static double requestedFunnelDeployPos = 0;
+  private static double requestedFunnelDeployPos = 70;
   DecimalFormat df = new DecimalFormat("#.00000");
   public static LinearFilter filter = LinearFilter.movingAverage(5);
   public static LinearFilter funnelFilter = LinearFilter.movingAverage(4);
@@ -71,7 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
     funnelDeployMotor = new TalonFX(IDConstants.funnelDeployMotorID, "rio");
     funnelDeployMotor.getConfigurator().apply(
           new TalonFXConfiguration().MotorOutput
-              .withInverted(InvertedValue.CounterClockwise_Positive));
+              .withInverted(InvertedValue.Clockwise_Positive));
   
 
     funnelDeployMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -115,8 +116,20 @@ public class IntakeSubsystem extends SubsystemBase {
     createAlert(outerIntakeMotor, "fuelIntakeMotor");
     createAlert(innerIntakeMotor, "funnelIntakeMotor");
    
-  }
+    feedWheelMotor.getConfigurator().apply(new SlotConfigs()
+                .withKP(IntakeConstants.feedWheelkP)
+                .withKI(IntakeConstants.feedWheelkI)
+                .withKD(IntakeConstants.feedWheelkD));
+    feedWheelMotor.getConfigurator().apply(new MotionMagicConfigs()
+            .withMotionMagicAcceleration(ShooterConstants.shootAcceleration));
 
+    feedBeltMotor.getConfigurator().apply(new SlotConfigs()
+                .withKP(IntakeConstants.feedBeltkP)
+                .withKI(IntakeConstants.feedBeltkI)
+                .withKD(IntakeConstants.feedBeltkD));
+    feedBeltMotor.getConfigurator().apply(new MotionMagicConfigs()
+            .withMotionMagicAcceleration(ShooterConstants.shootAcceleration));
+  }
   public static void reloadConstants()
   {
     funnelDeployMotor.getConfigurator()
@@ -160,11 +173,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public static void setFeedWheelMotor(double voltage) {
-    feedWheelMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+    feedWheelMotor.setControl(new MotionMagicVelocityVoltage(voltage));
   }
 
   public static void setFeedBeltMotor(double voltage) {
-    feedBeltMotor.setControl(new VoltageOut(voltage).withEnableFOC(true));
+    feedBeltMotor.setControl(new MotionMagicVelocityVoltage(voltage));
   }
 
   public static void setOuterIntakeVelocity(AngularVelocity angularVelocity) {
@@ -206,6 +219,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     
     // This method will be called once per scheduler run
-   // funnelDeployMotor.setControl(new MotionMagicVoltage(degreesToFunnelDeployRotations(requestedFunnelDeployPos)));
+   funnelDeployMotor.setControl(new MotionMagicVoltage(degreesToFunnelDeployRotations(requestedFunnelDeployPos)));
   }
 }

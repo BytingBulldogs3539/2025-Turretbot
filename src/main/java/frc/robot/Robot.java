@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    IntakeSubsystem.setFunnelDeployAngle(IntakeSubsystem.getFunnelDeployAngle());
+    //IntakeSubsystem.setFunnelDeployAngle(IntakeSubsystem.getFunnelDeployAngle());
   }
 
   @Override

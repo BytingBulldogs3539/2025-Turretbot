@@ -25,12 +25,12 @@ public class ShooterConstants extends BBConstants {
     public static double hoodkP = 0.0;
     public static double hoodkV = 0.0;
     /** rot per sec^2 */
-    public static double turretRotateAcceleration = 0.0;
+    public static double turretRotateAcceleration = 400;
     /** rot per sec */
-    public static double turretRotateCruiseVelocity = 0.0;
+    public static double turretRotateCruiseVelocity = 120;
     public static double turretRotatekD = 0.0;
     public static double turretRotatekI = 0.0;
-    public static double turretRotatekP = 0.0;
+    public static double turretRotatekP = 5;
     public static double turretRotatekV = 0.0;
     /** in inches */
     public static double shootDiameter = 4.0;

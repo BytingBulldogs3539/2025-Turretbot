@@ -25,10 +25,13 @@ public class GiveItTheBeansCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("init shoot vel " + Utils.ssToAngularVelocity(IntakeConstants.feedWheelDiameter, IntakeConstants.feedWheelSS).baseUnitMagnitude());
     IntakeSubsystem.setFeedBeltVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedBeltDiameter, IntakeConstants.feedBeltSS).baseUnitMagnitude());
     IntakeSubsystem.setFeedWheelVelocity(Utils.ssToAngularVelocity(IntakeConstants.feedWheelDiameter, IntakeConstants.feedWheelSS).baseUnitMagnitude());
+    // IntakeSubsystem.setInnerIntakeMotor(5);;
 
     
+
 
    }
 
@@ -41,6 +44,7 @@ public class GiveItTheBeansCommand extends Command {
   public void end(boolean interrupted) {
     IntakeSubsystem.setFeedBeltVelocity(0);
     IntakeSubsystem.setFeedWheelVelocity(0);
+    // IntakeSubsystem.setInnerIntakeMotor(0);
   }
 
   // Returns true when the command should end.
