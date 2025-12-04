@@ -26,7 +26,8 @@ public class RobotContainer {
 
   public static DriveSubsystem driveSubsystem = TunerConstants.createDrivetrain();
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  public static ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
+  public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public static VisionSubsystem visionSubsystem = new VisionSubsystem();
 
   public static CommandXboxController operatorController = new CommandXboxController(0);
   public static CommandXboxController driverController = new CommandXboxController(1);
@@ -37,6 +38,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     driveSubsystem.setDefaultCommand(new DriveCommand());
+    visionSubsystem.start();
   }
 
   private void configureBindings() {

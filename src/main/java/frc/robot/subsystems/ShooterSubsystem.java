@@ -133,7 +133,7 @@ public class ShooterSubsystem extends SubsystemBase {
         // hoodMotor.setControl(hoodMM);
 
         turretRotateMotor.setControl(new MotionMagicVoltage(degreesToRotations(requestedTurretRotateAngle)));
-        System.out.println(
-                "currentAngle " + getTurretAngle() + " Requested Angle " + requestedTurretRotateAngle);
+        // System.out.println(
+        //         "currentAngle " + getTurretAngle() + " Requested Angle " + requestedTurretRotateAngle);
     }
 }
