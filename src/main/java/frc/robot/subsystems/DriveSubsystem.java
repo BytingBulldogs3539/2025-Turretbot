@@ -247,5 +247,7 @@ public class DriveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder>
 			SmartDashboard.putNumber("/DriveTrain/BatteryVoltage", RobotController.getBatteryVoltage());
 		}
 
+		publishPose2d("/DriveTrain/Pose", getPose2d());
+
 	}
 }

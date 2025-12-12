@@ -22,9 +22,11 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.constants.IDConstants;
 import frc.robot.constants.ShooterConstants;
 
@@ -33,6 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private static TalonFXS turretRotateMotor, hoodMotor;
     // private static MotionMagicVoltage turretRotateMM, hoodMM;
     private static double requestedTurretRotateAngle, requestedHoodAngle;
+
+    private static Translation2d turretAimPoint = new Translation2d(4.5, 4.03);
 
     public ShooterSubsystem() {
 
@@ -54,10 +58,9 @@ public class ShooterSubsystem extends SubsystemBase {
         turretRotateMotor.setNeutralMode(NeutralModeValue.Brake);
         turretRotateMotor.getConfigurator()
                 .apply(new SoftwareLimitSwitchConfigs().withForwardSoftLimitEnable(true)
-                        .withForwardSoftLimitThreshold(degreesToRotations(90.0))
+                        .withForwardSoftLimitThreshold(degreesToRotations(135.0))
                         .withReverseSoftLimitEnable(true)
-                        .withReverseSoftLimitThreshold(degreesToRotations(-90)));
-        
+                        .withReverseSoftLimitThreshold(degreesToRotations(-135)));
 
         // turretRotateMM = new MotionMagicVoltage(Degrees.zero());
 
@@ -132,8 +135,26 @@ public class ShooterSubsystem extends SubsystemBase {
         // hoodMM.withPosition(requestedHoodAngle);
         // hoodMotor.setControl(hoodMM);
 
-        turretRotateMotor.setControl(new MotionMagicVoltage(degreesToRotations(requestedTurretRotateAngle)));
+        double angleToTarget = RobotContainer.driveSubsystem.getPose2d().getTranslation()
+                .minus(turretAimPoint).getAngle().getDegrees() - 180;
+
+        double turretTarget = (RobotContainer.driveSubsystem.getPose2d().getRotation().getDegrees()
+                - angleToTarget) % 360;
+
+        if (turretTarget > 180)
+            turretTarget -= 360;
+        else if (turretTarget < -180)
+            turretTarget += 360;
+
+        System.out.println("robot angle " + RobotContainer.driveSubsystem.getPose2d().getRotation().getDegrees()
+                + " angle to target " + angleToTarget + " turret request " + turretTarget);
+
+        turretRotateMotor.setControl(new MotionMagicVoltage(degreesToRotations(turretTarget)));
+
+        // turretRotateMotor.setControl(new
+        // MotionMagicVoltage(degreesToRotations(requestedTurretRotateAngle)));
         // System.out.println(
-        //         "currentAngle " + getTurretAngle() + " Requested Angle " + requestedTurretRotateAngle);
+        // "currentAngle " + getTurretAngle() + " Requested Angle " +
+        // requestedTurretRotateAngle);
     }
 }
