@@ -23,6 +23,7 @@ import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,6 +38,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private static double requestedTurretRotateAngle, requestedHoodAngle;
 
     private static Translation2d turretAimPoint = new Translation2d(4.5, 4.03);
+
+    private static double velocityX = 0, velocityY = 0;
 
     public ShooterSubsystem() {
 
@@ -128,33 +131,41 @@ public class ShooterSubsystem extends SubsystemBase {
                 .withMotionMagicCruiseVelocity(ShooterConstants.hoodCruiseVelocity));
     }
 
+    public static Translation2d getOffsetTarget() {
+		Translation2d offsetTarget;
+		double ballSpeed = 4;
+		double distanceToTarget = 0;
+			distanceToTarget = Math.sqrt(Math.pow(
+					RobotContainer.driveSubsystem.getPose2d().getTranslation().getDistance(turretAimPoint), 2)
+					+ Math.pow(2.05, 2));
+			double timeToTarget = distanceToTarget / ballSpeed;
+			offsetTarget = new Translation2d(turretAimPoint.getX() - velocityX * timeToTarget,
+                turretAimPoint.getY() - velocityY * timeToTarget);
+
+		return offsetTarget;
+    }
+
     @Override
     public void periodic() {
-        // turretRotateMM.withPosition(requestedTurretRotateAngle);
-        // turretRotateMotor.setControl(turretRotateMM);
-        // hoodMM.withPosition(requestedHoodAngle);
-        // hoodMotor.setControl(hoodMM);
+        velocityX = ChassisSpeeds.fromRobotRelativeSpeeds(RobotContainer.driveSubsystem.getKinematics().toChassisSpeeds(RobotContainer.driveSubsystem.getState().ModuleStates),
+			RobotContainer.driveSubsystem.getPose2d().getRotation()).vxMetersPerSecond;
+		velocityY = ChassisSpeeds.fromRobotRelativeSpeeds(RobotContainer.driveSubsystem.getKinematics().toChassisSpeeds(RobotContainer.driveSubsystem.getState().ModuleStates),
+            RobotContainer.driveSubsystem.getPose2d().getRotation()).vyMetersPerSecond;
 
         double angleToTarget = RobotContainer.driveSubsystem.getPose2d().getTranslation()
-                .minus(turretAimPoint).getAngle().getDegrees() - 180;
+            .minus(getOffsetTarget()).getAngle().getDegrees() - 180;
 
         double turretTarget = (RobotContainer.driveSubsystem.getPose2d().getRotation().getDegrees()
-                - angleToTarget) % 360;
+            - angleToTarget) % 360;
 
         if (turretTarget > 180)
             turretTarget -= 360;
         else if (turretTarget < -180)
             turretTarget += 360;
 
-        System.out.println("robot angle " + RobotContainer.driveSubsystem.getPose2d().getRotation().getDegrees()
-                + " angle to target " + angleToTarget + " turret request " + turretTarget);
+        // System.out.println("robot angle " + RobotContainer.driveSubsystem.getPose2d().getRotation().getDegrees()
+        //     + " angle to target " + angleToTarget + " turret request " + turretTarget);
 
         turretRotateMotor.setControl(new MotionMagicVoltage(degreesToRotations(turretTarget)));
-
-        // turretRotateMotor.setControl(new
-        // MotionMagicVoltage(degreesToRotations(requestedTurretRotateAngle)));
-        // System.out.println(
-        // "currentAngle " + getTurretAngle() + " Requested Angle " +
-        // requestedTurretRotateAngle);
     }
 }
